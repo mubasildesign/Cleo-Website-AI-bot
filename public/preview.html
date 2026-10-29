@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cleo preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root { color-scheme: light; }
+      html, body { margin: 0; height: 100%; }
+      body {
+        overflow: hidden;
+        background:
+          radial-gradient(1200px 600px at 10% -10%, #eef0f4 0%, transparent 60%),
+          radial-gradient(900px 500px at 110% 110%, #eceef3 0%, transparent 55%),
+          #f6f7f9;
+        font: 14px/1.5 "Geist", ui-sans-serif, system-ui, sans-serif;
+        color: #18181b;
+      }
+      body.dark {
+        background:
+          radial-gradient(1200px 600px at 10% -10%, #1d1f25 0%, transparent 60%),
+          #0c0d10;
+      }
+      .ghost { position: absolute; inset: 28px 28px auto; display: grid; gap: 14px; opacity: .55; }
+      .bar { height: 12px; border-radius: 6px; background: rgba(24, 24, 27, .07); }
+      body.dark .bar { background: rgba(255, 255, 255, .06); }
+      .bar.w1 { width: 38%; height: 18px; }
+      .bar.w2 { width: 72%; }
+      .bar.w3 { width: 56%; }
+    </style>
+  </head>
+  <body>
+    <div class="ghost" aria-hidden="true">
+      <div class="bar w1"></div>
+      <div class="bar w2"></div>
+      <div class="bar w3"></div>
+    </div>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const site = params.get("site");
+      window.AXON_CONFIG = { preview: true, overrides: {} };
+      let pending = null;
+
+      window.addEventListener("message", (event) => {
+        if (event.origin !== location.origin) return;
+        if (event.data?.type === "axon:nudge" && window.Axon) {
+          window.Axon.close();
+          window.Axon.configure({ showNudge: true });
+          return;
+        }
+        if (event.data?.type !== "axon:config") return;
+        const settings = event.data.settings || {};
+        document.body.classList.toggle("dark", settings.theme === "dark");
+        if (window.Axon) window.Axon.configure(settings);
+        else {
+          pending = settings;
+          window.AXON_CONFIG.overrides = settings;
+        }
+      });
+
+      window.addEventListener("axon:ready", () => {
+        if (pending) window.Axon.configure(pending);
+        if (params.get("open") !== "0") window.Axon.open();
+        parent.postMessage({ type: "axon:ready" }, location.origin);
+      });
+
+      if (site) {
+        const script = document.createElement("script");
+        script.src = "/widget/loader.js";
+        script.dataset.siteKey = site;
+        document.body.appendChild(script);
+      }
+    </script>
+  </body>
+</html>

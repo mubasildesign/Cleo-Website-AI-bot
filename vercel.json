@@ -1,0 +1,14 @@
+{
+  "framework": "vite",
+  "functions": {
+    "api/crawl.js": { "maxDuration": 60 },
+    "api/chat.js": { "maxDuration": 60 },
+    "api/test-ai.js": { "maxDuration": 30 }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api/|widget/|assets/|preview.html).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

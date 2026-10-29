@@ -1,0 +1,52 @@
+{
+  "name": "cleo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare:widget": "node scripts/prepare_widget.mjs",
+    "predev": "npm run prepare:widget",
+    "dev": "vite",
+    "prebuild": "npm run prepare:widget",
+    "build": "vite build",
+    "lint": "eslint . --quiet",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc -p ./jsconfig.json",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@base44/sdk": "^0.8.51",
+    "@base44/vite-plugin": "^1.0.42",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@tanstack/react-query": "^5.84.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "input-otp": "^1.4.2",
+    "lucide-react": "^0.475.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.18.4",
+    "tailwind-merge": "^3.0.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/node": "^22.13.5",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^6.0.5",
+    "autoprefixer": "^10.4.20",
+    "baseline-browser-mapping": "^2.8.32",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "eslint-plugin-unused-imports": "^4.3.0",
+    "globals": "^15.14.0",
+    "nitro": "^3.0.260610-beta",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.2",
+    "vite": "^8.2.0"
+  }
+}
